@@ -1,5 +1,5 @@
 #encoding: utf-8
-class Gateway::Onpay < Gateway
+class Spree::Gateway::Onpay < Gateway
  	preference :priv_code, :string
   preference :onpay_login, :string
 	preference :price_final, :boolean, :default => true

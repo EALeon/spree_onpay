@@ -1,5 +1,5 @@
 #encoding: utf-8
-Admin::PaymentMethodsController.class_eval do
+Spree::Admin::PaymentMethodsController.class_eval do
 	before_filter :check_onpay_edit	
 	
 	def edit
@@ -9,7 +9,7 @@ Admin::PaymentMethodsController.class_eval do
 	private
 
 	def check_onpay_edit
-		@payment_method.class == Gateway::Onpay ?	@@onpay_way = true : @@onpay_way = false
+		@payment_method.class == Spree::Gateway::Onpay ?	@@onpay_way = true : @@onpay_way = false
 	end
 
 end

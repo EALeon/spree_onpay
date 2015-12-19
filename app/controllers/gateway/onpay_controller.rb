@@ -1,11 +1,11 @@
 #encoding: utf-8
-class Gateway::OnpayController < Spree::BaseController
+class Spree::Gateway::OnpayController < Spree::BaseController
   skip_before_filter :verify_authenticity_token, :only => [:api]
   before_filter :load_order,                     :only => [:api]
   ssl_required :show
   
   def show
-    @order =  Order.find(params[:order_id])
+    @order =  Spree::Order.find(params[:order_id])
     @gateway = @order.available_payment_methods.find{|x| x.id == params[:gateway_id].to_i }
 
     if @order.blank? || @gateway.blank?
@@ -102,7 +102,7 @@ class Gateway::OnpayController < Spree::BaseController
 
 	def create_payment(order_amount)
  	     		payment = @order.payments.build(:payment_method => @order.payment_method)
-					payment.payment_method = PaymentMethod.find_by_type('Gateway::Onpay')
+					payment.payment_method = Spree::PaymentMethod.find_by_type('Spree::Gateway::Onpay')
 	      	payment.state = "completed"
 	      	payment.amount = order_amount
 	      	payment.save
@@ -144,8 +144,8 @@ class Gateway::OnpayController < Spree::BaseController
 	end
 
   def load_order
-    @order = Order.find_by_id(params["pay_for"])
-    @gateway = Gateway::Onpay.current
+    @order = Spree::Order.find_by_id(params["pay_for"])
+    @gateway = Spree::Gateway::Onpay.current
   end
 
 end
